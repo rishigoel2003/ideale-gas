@@ -7,3 +7,5 @@
 [node name="Box" type="StaticBody2D" parent="."]
 
 [node name="Ball_Container" type="Node2D" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
