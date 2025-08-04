@@ -2,4 +2,6 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Node" type="Node" parent="."]
+[node name="Game Manager" type="Node" parent="."]
+
+[node name="Box" type="StaticBody2D" parent="."]
