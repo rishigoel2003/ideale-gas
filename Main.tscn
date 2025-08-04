@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bg2a0irewpkae"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Main" type="Node2D"]
 
 [node name="Game Manager" type="Node" parent="."]
 
