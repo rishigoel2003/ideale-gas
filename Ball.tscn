@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://beyjtqjbtmwdp"]
+
+[ext_resource type="Script" path="res://rigid_body_2d.gd" id="1_w2uns"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kf3jf"]
+radius = 50.0
+
+[node name="RigidBody2D" type="RigidBody2D"]
+gravity_scale = 0.0
+linear_damp = 0.1
+script = ExtResource("1_w2uns")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kf3jf")
