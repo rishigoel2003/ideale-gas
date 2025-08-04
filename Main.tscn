@@ -5,3 +5,5 @@
 [node name="Game Manager" type="Node" parent="."]
 
 [node name="Box" type="StaticBody2D" parent="."]
+
+[node name="Ball_Container" type="Node2D" parent="."]
