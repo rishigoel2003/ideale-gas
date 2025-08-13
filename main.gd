@@ -9,13 +9,17 @@ var ball_cost = 0  # Starting cost for first ball
 var fib_prev = 1  # Previous fibonacci number
 var fib_curr = 1  # Current fibonacci number
 
+# Speed boost variables
+var speed_boost_cost = 25
+var speed_boost_multiplier = 1.3  # Increase speed by 30%
 
 func _ready():
 	# Connect the button to our function
 	$AddBallButton.pressed.connect(_on_add_ball_button_pressed)
+	$SpeedBoostButton.pressed.connect(_on_speed_boost_button_pressed)
 	# Update the displays
 	update_money_display()
-	update_button_display()
+	update_button_displays()
 
 func _on_add_ball_button_pressed():
 	# Check if player has enough money
@@ -46,22 +50,46 @@ func _on_add_ball_button_pressed():
 		
 		# Update displays
 		update_money_display()
-		update_button_display()
+		update_button_displays()
+
+func _on_speed_boost_button_pressed():
+	# Check if player has enough money
+	if money >= speed_boost_cost:
+		# Subtract the cost
+		money -= speed_boost_cost
+		
+		# Boost speed of all existing balls
+		boost_all_ball_speeds()
+		
+		# Increase cost for next speed boost
+		speed_boost_cost = int(speed_boost_cost * 1.5)  # Cost increases by 50% each time
+		
+		# Update displays
+		update_money_display()
+		update_button_displays()
+
+func boost_all_ball_speeds():
+	# Find all ball nodes and increase their speed
+	for child in get_children():
+		if child.has_method("boost_speed"):
+			child.boost_speed(speed_boost_multiplier)
+
 
 func _on_collision_detected():
 	money += 1
+	$clack.stop()
+	$clack.play()
 	update_money_display()
-	update_button_display()  # Update button availability
+	update_button_displays()  # Update button availability
 
 func update_money_display():
 	$MoneyLabel.text = "Money: $" + str(money)
 
-func update_button_display():
+func update_button_displays():
 	# Update button text to show cost
 	$AddBallButton.text = "Add Ball ($" + str(ball_cost) + ")"
+	$AddBallButton.disabled = money < ball_cost
 	
-	# Enable/disable button based on money
-	if money >= ball_cost:
-		$AddBallButton.disabled = false
-	else:
-		$AddBallButton.disabled = true
+	# Update speed boost button
+	$SpeedBoostButton.text = "Speed Boost ($" + str(speed_boost_cost) + ")"
+	$SpeedBoostButton.disabled = money < speed_boost_cost
