@@ -1,118 +1,67 @@
-# GameManager.gd - Simplified Version
 extends Node2D
 
-# Game state
-var money: int = 0
-var ball_count: int = 3
-var box_size: Vector2 = Vector2(400, 300)
-
-# Node references
-var money_label: Label
-var ball_container: Node2D
-
-# Ball scene
+# Load the ball scene
 var ball_scene = preload("res://Ball.tscn")
+var money = 10
+var ball_cost = 0  # Starting cost for first ball
+#var cost_increase = 1  # How much cost goes up each time
+
+var fib_prev = 1  # Previous fibonacci number
+var fib_curr = 1  # Current fibonacci number
+
 
 func _ready():
-	setup_scene()
-	setup_ui()
-	spawn_initial_balls()
+	# Connect the button to our function
+	$AddBallButton.pressed.connect(_on_add_ball_button_pressed)
+	# Update the displays
+	update_money_display()
+	update_button_display()
 
-func setup_scene():
-	# Center the game area
-	position = Vector2(100, 100)
-	
-	# Create ball container
-	ball_container = Node2D.new()
-	ball_container.name = "BallContainer"
-	add_child(ball_container)
-	
-	# Draw box outline
-	draw_box()
-
-func setup_ui():
-	# Create UI layer
-	var ui = CanvasLayer.new()
-	add_child(ui)
-	
-	# Money label
-	money_label = Label.new()
-	money_label.text = "Money: $0"
-	money_label.position = Vector2(10, 10)
-	money_label.add_theme_font_size_override("font_size", 24)
-	ui.add_child(money_label)
-	
-	# Simple button
-	var button = Button.new()
-	button.text = "Add Ball - $10"
-	button.position = Vector2(10, 50)
-	button.size = Vector2(150, 40)
-	button.pressed.connect(buy_ball)
-	ui.add_child(button)
-
-func draw_box():
-	# Create static walls
-	create_wall(Vector2(0, 0), Vector2(box_size.x, 10))  # Top
-	create_wall(Vector2(0, box_size.y-10), Vector2(box_size.x, 10))  # Bottom
-	create_wall(Vector2(0, 0), Vector2(10, box_size.y))  # Left
-	create_wall(Vector2(box_size.x-10, 0), Vector2(10, box_size.y))  # Right
-
-func create_wall(pos: Vector2, size: Vector2):
-	var wall = StaticBody2D.new()
-	wall.position = pos
-	
-	var collision = CollisionShape2D.new()
-	var rect_shape = RectangleShape2D.new()
-	rect_shape.size = size
-	collision.shape = rect_shape
-	collision.position = size / 2  # Center the collision shape
-	
-	# Visual representation
-	var color_rect = ColorRect.new()
-	color_rect.size = size
-	color_rect.color = Color.WHITE
-	
-	wall.add_child(collision)
-	wall.add_child(color_rect)
-	add_child(wall)
-
-func spawn_initial_balls():
-	for i in ball_count:
-		spawn_ball()
-
-func spawn_ball():
-	if not ball_scene:
-		print("Ball scene not loaded!")
-		return
+func _on_add_ball_button_pressed():
+	# Check if player has enough money
+	if money >= ball_cost:
+		# Subtract the cost
+		money -= ball_cost
 		
-	var ball = ball_scene.instantiate()
-	if not ball:
-		print("Failed to instantiate ball!")
-		return
+		# Create a new ball instance
+		var new_ball = ball_scene.instantiate()
 		
-	# Random position within box bounds
-	var margin = 30
-	ball.position = Vector2(
-		randf_range(margin, box_size.x - margin),
-		randf_range(margin, box_size.y - margin)
-	)
+		# Position it randomly within the walls
+		var random_x = randf_range(-1800, 1800)
+		var random_y = randf_range(-1800, 1800)
+		new_ball.position = Vector2(random_x, random_y)
+		
+		# Connect the ball's collision signal to our money function
+		new_ball.collision_happened.connect(_on_collision_detected)
+		
+		# Add it to the scene
+		add_child(new_ball)
+		
+		# Increase the cost for next ball
+		var next_fib = fib_prev + fib_curr
+		ball_cost = next_fib		
+		
+		fib_prev = fib_curr
+		fib_curr = next_fib
+		
+		# Update displays
+		update_money_display()
+		update_button_display()
+
+func _on_collision_detected():
+	money += 1
+	update_money_display()
+	update_button_display()  # Update button availability
+
+func update_money_display():
+	$MoneyLabel.text = "Money: $" + str(money)
+
+func update_button_display():
+	# Update button text to show cost
+	$AddBallButton.text = "Add Ball ($" + str(ball_cost) + ")"
 	
-	ball_container.add_child(ball)
-	
-	# Connect the ball's collision signal
-	if ball.has_signal("collision_happened"):
-		ball.collision_happened.connect(add_money)
-
-func add_money(amount: int = 1):
-	money += amount
-	update_ui()
-
-func update_ui():
-	if money_label:
-		money_label.text = "Money: $%d" % money
-
-func buy_ball():
-	if money >= 10:
-		money -= 10
-		spawn_ball()
-		update_ui()
+	# Enable/disable button based on money
+	if money >= ball_cost:
+		$AddBallButton.disabled = false
+	else:
+		$AddBallButton.disabled = true
