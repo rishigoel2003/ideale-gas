@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bg2a0irewpkae"]
+[gd_scene load_steps=6 format=3 uid="uid://bg2a0irewpkae"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_72mct"]
 [ext_resource type="AudioStream" uid="uid://dmk5fn06vmppo" path="res://Sounds/clack.mp3" id="2_kilf6"]
 [ext_resource type="FontFile" uid="uid://d3hv2k8327bbu" path="res://Godot-Fontpack/fonts/cmu-typewriter/Typewriter/cmuntt.ttf" id="2_sat37"]
+[ext_resource type="Theme" uid="uid://bqa61ejy2a7b3" path="res://button.tres" id="3_lurqv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f8lpx"]
 
@@ -73,6 +74,7 @@ offset_left = 2269.0
 offset_top = -1950.0
 offset_right = 3269.0
 offset_bottom = -1450.0
+theme = ExtResource("3_lurqv")
 theme_override_font_sizes/font_size = 220
 text = "Add Ball"
 
@@ -81,6 +83,7 @@ offset_left = 2269.0
 offset_top = -1300.0
 offset_right = 3269.0
 offset_bottom = -800.0
+theme = ExtResource("3_lurqv")
 theme_override_font_sizes/font_size = 220
 text = "Speed Boost"
 
