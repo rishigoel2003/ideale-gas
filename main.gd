@@ -2,7 +2,7 @@ extends Node2D
 
 # Load the ball scene
 var ball_scene = preload("res://Ball.tscn")
-var money = 10
+var money = 99
 var ball_cost = 0  # Starting cost for first ball
 #var cost_increase = 1  # How much cost goes up each time
 
@@ -12,6 +12,10 @@ var fib_curr = 1  # Current fibonacci number
 # Speed boost variables
 var speed_boost_cost = 25
 var speed_boost_multiplier = 1.3  # Increase speed by 30%
+
+# Win condition
+var win_amount = 100
+var game_won = false
 
 func _ready():
 	# Connect the button to our function
@@ -82,8 +86,18 @@ func _on_collision_detected():
 	update_money_display()
 	update_button_displays()  # Update button availability
 
+	check_win_condition()
+	
+
+func check_win_condition():
+	if money >= win_amount and not game_won:
+		game_won = true
+		# Wait a moment then go to win screen
+		await get_tree().create_timer(1.0).timeout
+		get_tree().change_scene_to_file("res://WinScreen.tscn")
+
 func update_money_display():
-	$MoneyLabel.text = "Money: $" + str(money)
+	$MoneyLabel.text = "Money: $" + str(money) + " / $" + str(win_amount)
 
 func update_button_displays():
 	# Update button text to show cost
