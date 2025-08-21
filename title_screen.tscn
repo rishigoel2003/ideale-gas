@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkf5ybktethc4"]
+[gd_scene load_steps=5 format=3 uid="uid://dkf5ybktethc4"]
 
 [ext_resource type="Script" path="res://title_screen.gd" id="1_02usd"]
 [ext_resource type="FontFile" uid="uid://cvm5p62bx036u" path="res://Godot-Fontpack/fonts/kirifont/KiriFont.ttf" id="2_f70yp"]
 [ext_resource type="Theme" uid="uid://bqa61ejy2a7b3" path="res://button.tres" id="3_kaox8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_78h82"]
 
 [node name="TitleScreen" type="Control"]
 layout_mode = 3
@@ -33,12 +35,13 @@ icon_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, -400)
-zoom = Vector2(0.5, 0.5)
+zoom = Vector2(0.6, 0.6)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -5
 z_as_relative = false
 y_sort_enabled = true
+layout_mode = 0
 offset_left = -14048.0
 offset_top = -9478.0
 offset_right = 18026.0
@@ -47,3 +50,33 @@ mouse_filter = 2
 mouse_force_pass_scroll_events = false
 color = Color(0.0509804, 0.105882, 0.164706, 1)
 metadata/_edit_lock_ = true
+
+[node name="Box" type="StaticBody2D" parent="."]
+
+[node name="TopWall" type="StaticBody2D" parent="Box"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box/TopWall"]
+position = Vector2(-36, -3000)
+scale = Vector2(2000, 1)
+shape = SubResource("RectangleShape2D_78h82")
+
+[node name="BottomWall" type="StaticBody2D" parent="Box"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box/BottomWall"]
+position = Vector2(-59, 2000)
+scale = Vector2(2000, 1)
+shape = SubResource("RectangleShape2D_78h82")
+
+[node name="LeftWall" type="StaticBody2D" parent="Box"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box/LeftWall"]
+position = Vector2(-4000, -234)
+scale = Vector2(1, 2000)
+shape = SubResource("RectangleShape2D_78h82")
+
+[node name="RightWall" type="StaticBody2D" parent="Box"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box/RightWall"]
+position = Vector2(4000, -234)
+scale = Vector2(1, 2000)
+shape = SubResource("RectangleShape2D_78h82")
