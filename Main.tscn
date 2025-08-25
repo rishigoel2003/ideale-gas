@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://bg2a0irewpkae"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_72mct"]
-[ext_resource type="AudioStream" uid="uid://dmk5fn06vmppo" path="res://Sounds/clack.mp3" id="2_kilf6"]
 [ext_resource type="FontFile" uid="uid://d3hv2k8327bbu" path="res://Godot-Fontpack/fonts/cmu-typewriter/Typewriter/cmuntt.ttf" id="2_sat37"]
 [ext_resource type="Theme" uid="uid://bqa61ejy2a7b3" path="res://button.tres" id="3_lurqv"]
+[ext_resource type="AudioStream" uid="uid://cg02q2rtsr7j5" path="res://Sounds/mixkit-modern-technology-select-3124.wav" id="4_2pmvt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f8lpx"]
 
@@ -88,8 +88,8 @@ theme_override_font_sizes/font_size = 220
 text = "Speed Boost"
 
 [node name="clack" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_kilf6")
-volume_db = 24.0
+stream = ExtResource("4_2pmvt")
+volume_db = 12.114
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -5
