@@ -13,8 +13,9 @@ var fib_curr = 1  # Current fibonacci number
 var speed_boost_cost = 25
 var speed_boost_multiplier = 1.3  # Increase speed by 30%
 
+
 # Win condition
-var win_amount = 100
+var win_amount = 1000
 var game_won = false
 
 func _ready():
@@ -45,6 +46,9 @@ func _on_add_ball_button_pressed():
 		# Add it to the scene
 		add_child(new_ball)
 		
+		# Update the attraction system for all balls
+		update_attraction_system()
+		
 		# Increase the cost for next ball
 		var next_fib = fib_prev + fib_curr
 		ball_cost = next_fib		
@@ -55,6 +59,22 @@ func _on_add_ball_button_pressed():
 		# Update displays
 		update_money_display()
 		update_button_displays()
+		
+
+func update_attraction_system():
+	# Collect all balls in the scene
+	var balls: Array[RigidBody2D] = []
+	for child in get_children():
+
+		if child is RigidBody2D and child.has_method("set_other_balls"):
+			balls.append(child)
+	
+	# Update each ball's reference to all other balls
+	for ball in balls:
+		ball.set_other_balls(balls)
+		
+
+
 
 func _on_speed_boost_button_pressed():
 	# Check if player has enough money

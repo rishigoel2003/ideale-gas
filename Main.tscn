@@ -28,29 +28,29 @@ one_way_collision_margin = 0.0
 [node name="TopWall" type="StaticBody2D" parent="Box"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Box/TopWall"]
-position = Vector2(145, -1930)
-scale = Vector2(200, 1)
+position = Vector2(145, -2442)
+scale = Vector2(300, 50)
 shape = SubResource("RectangleShape2D_f8lpx")
 
 [node name="BottomWall" type="StaticBody2D" parent="Box"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Box/BottomWall"]
-position = Vector2(145, 2050)
-scale = Vector2(200, 1)
+position = Vector2(145, 2564)
+scale = Vector2(300, 50)
 shape = SubResource("RectangleShape2D_f8lpx")
 
 [node name="LeftWall" type="StaticBody2D" parent="Box"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Box/LeftWall"]
-position = Vector2(-1845, 60)
-scale = Vector2(1, 200)
+position = Vector2(-2358, 70)
+scale = Vector2(50, 200)
 shape = SubResource("RectangleShape2D_f8lpx")
 
 [node name="RightWall" type="StaticBody2D" parent="Box"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Box/RightWall"]
-position = Vector2(2135, 60)
-scale = Vector2(1, 200)
+position = Vector2(2639, 60)
+scale = Vector2(50, 200)
 shape = SubResource("RectangleShape2D_f8lpx")
 
 [node name="BallContainer" type="Node2D" parent="."]
